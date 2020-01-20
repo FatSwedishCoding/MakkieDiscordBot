@@ -10,12 +10,12 @@ description 'Discord Bot' 			-- Resource Description
 
 server_script { 
      '@mysql-async/lib/MySQL.lua',
-     'SERVER/Server.lua'
+     'Server.lua'
  }
 
 client_script {						-- Client Scripts
 	'Config.lua',
-	'CLIENT/Weapons.lua',
-	'CLIENT/Client.lua',
+	'Weapons.lua',
+	'Client.lua',
 }
 
