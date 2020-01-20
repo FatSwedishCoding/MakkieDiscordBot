@@ -900,10 +900,6 @@ local CurrentVersion = '2.0'
 local NewestVersion = '2.0'
 local GithubResourceName = 'Makkie DiscordBot'
 
-PerformHttpRequest('https://github.com/marcusf1993/MakkieDiscordBot' .. GithubResourceName .. '/VERSION', function(Error, NewestVersion, Header)
-	PerformHttpRequest('https://github.com/marcusf1993/MakkieDiscordBot' .. GithubResourceName .. '/CHANGES', function(Error, Changes, Header)
-
-
 		print('\n')
 		print('##############')
 		print('## ' .. GetCurrentResourceName())
@@ -922,5 +918,4 @@ PerformHttpRequest('https://github.com/marcusf1993/MakkieDiscordBot' .. GithubRe
 			print('##############')
 		end
 		print('\n')
-end)
-end)
+
