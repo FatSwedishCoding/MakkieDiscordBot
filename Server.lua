@@ -919,3 +919,5 @@ local GithubResourceName = 'Makkie DiscordBot'
 		end
 		print('\n')
 
+--#FOR UPDATES CHECK GITHUB.*
+-- #GITHUB: https://github.com/marcusf1993/MakkieDiscordBot
