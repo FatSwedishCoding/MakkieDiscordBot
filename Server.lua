@@ -50,6 +50,7 @@ end
 -- System Info
 PerformHttpRequest(DiscordWebhookSystemInfos, function(Error, Content, Head) end, 'POST', json.encode({username = SystemName, content = '**FiveM server webhook started**'}), { ['Content-Type'] = 'application/json' })
 
+
 -- admin tp meny test1 Quick
 RegisterServerEvent('es_admin:quick')
 AddEventHandler('es_admin:quick', function(id, type)
@@ -80,7 +81,7 @@ local date = os.date('*t')
       lastname    = lastname
     }
 	
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'ADMINMENY' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade admin Meny Quick' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade admin Meny Quick' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
 end)
 
@@ -114,7 +115,7 @@ local date = os.date('*t')
       lastname    = lastname
     }
 	
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'ADMINMENY' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade admin Meny ALL' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade admin Meny ALL' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
 end)
 
@@ -149,12 +150,46 @@ local date = os.date('*t')
       lastname    = lastname
     }
 	
-TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLISMENY' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 	OpenJailMenu()
 end)
 
 
+-- visar om någon blir jailad ny systemet
+RegisterServerEvent('esx_policejob:requestarrest')
+AddEventHandler('esx_policejob:requestarrest', function(targetid, playerheading, playerCoords,  playerlocation)
+local date = os.date('*t')
+	
+	if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	
+	local _source = source
+
+  local sourceXPlayer = ESX.GetPlayerFromId(_source)
+  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	
+TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+
+end)
 -- Visar om nån använder jail meny, "även poliser"
 RegisterNetEvent("esx-qalle-jail:jailPlayer")
 AddEventHandler("esx-qalle-jail:jailPlayer", function(newJailTime)
@@ -185,8 +220,8 @@ local date = os.date('*t')
       lastname    = lastname
     }
 	
-TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLISMENY' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLISMENY' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 
 	jailTime = newJailTime
@@ -907,7 +942,8 @@ local GithubResourceName = 'Makkie DiscordBot'
 		print('## Current Version: ' .. CurrentVersion)
 		print('## Newest Version: ' .. CurrentVersion)
 		print('##')
-		if CurrentVersion ~= '2.0' then
+		
+		if CurrentVersion ~= CurrentVersion then
 			print('## Outdated')
 			print('## Check the Topic')
 			print('## For the newest Version!')
@@ -918,6 +954,3 @@ local GithubResourceName = 'Makkie DiscordBot'
 			print('##############')
 		end
 		print('\n')
-
---#FOR UPDATES CHECK GITHUB.*
--- #GITHUB: https://github.com/marcusf1993/MakkieDiscordBot
