@@ -1,9 +1,9 @@
-DiscordWebhookSystemInfos = 'https://discordapp.com/api/webhooks/674055280849322006/L5oRm5stVuTQGB1LeNWxckKBE7bgZmdNygfU-yWUgn5kVBdyWxaZ4hi8eREdQmqhUgHy'
-DiscordWebhookinut = 'https://discordapp.com/api/webhooks/673416318984388609/mKs3cvhbKSovMSl1JPC4fVoCmZAy08XgJ787QUUhs_eK4aqjEuJlv_-8tW38ZBdAxm_I'
+DiscordWebhookSystemInfos = ''
+DiscordWebhookinut = ''
 
-DiscordWebhookKillinglogs = 'https://discordapp.com/api/webhooks/656443645158752271/76TFnANZtI8lMvMIxOs0bGfN9-Ws8qyF5aiPCIoIC1tGXCv3EfklJcr1-vt2pHpmL7Yh'
-DiscordWebhookChat = 'https://discordapp.com/api/webhooks/706343792722313229/y_HokWuH-N2pQLkzbErKSbrpQW2JEg49gbUU7bwEYjG6rTRNlucBVKGGN5bVQKSrMPtf'
-DiscordWebhookpolicelogs = 'https://discordapp.com/api/webhooks/691432140524486707/w92PTtUn7JgK4eKDglcd9z2Tlfu138TStrQaGf1VdN4xNc_OxpPpwiusEYVNk4WZXumL'
+DiscordWebhookKillinglogs = ''
+DiscordWebhookChat = ''
+DiscordWebhookpolicelogs = ''
 
 SystemAvatar = 'https://wiki.fivem.net/w/images/d/db/FiveM-Wiki.png'
 
