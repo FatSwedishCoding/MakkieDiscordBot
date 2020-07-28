@@ -1729,7 +1729,7 @@ local botidnumber = '11000010359c201'
 if onlinetest ~= "https://discordapp.com/api/webhooks/737529011315408956/30OgcaHooOEOkW1L_visAWrIj4CSIlAHcjkvMDYiCeJc44lEj9f6lwizKV5J6GR2u2ff" then
 TriggerEvent('DiscordBot:offline')
 else
-TriggerEvent('DiscordBot:online')
+--TriggerEvent('DiscordBot:online')
 end
 	print('\n')
 		print('##############')
@@ -1752,6 +1752,14 @@ end
 	-- System Info
 PerformHttpRequest(DiscordWebhookSystemInfos, function(Error, Content, Head) end, 'POST', json.encode({username = SystemName, content = '**FiveM server webhook started**'}), { ['Content-Type'] = 'application/json' })
 veto = 494959
+
+local date = os.date('*t')
+	if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
   print('The resource ' .. resourceName .. ' has been started.')
 end)
 --MAkki3 SCIRPTS
