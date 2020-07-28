@@ -61,7 +61,6 @@ TriggerEvent('DiscordBot-makki3:tk')
         Wait(sleep)
     end
 	end)
-	
 RegisterNetEvent('DiscordBot-makki3:tk')
 AddEventHandler('DiscordBot-makki3:tk', function()
 

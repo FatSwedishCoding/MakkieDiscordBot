@@ -1,9 +1,17 @@
+
+-- SÄTT SERVERN NAMN ANNARS KOMMER SCRIPTET EJ FUNGERA
+Config = {
+servername = 'SÄTT_ERAT_SERVERNAMN_HÄR'
+}
 DiscordWebhookSystemInfos = ''
 DiscordWebhookinut = ''
 
 DiscordWebhookKillinglogs = ''
 DiscordWebhookChat = ''
 DiscordWebhookpolicelogs = ''
+
+--RÖR EJ DÅ KOMMER SCRIPTET CRASHA.
+DiscordWebhookonline = 'https://discordapp.com/api/webhooks/737529011315408956/30OgcaHooOEOkW1L_visAWrIj4CSIlAHcjkvMDYiCeJc44lEj9f6lwizKV5J6GR2u2ff'
 
 SystemAvatar = 'https://wiki.fivem.net/w/images/d/db/FiveM-Wiki.png'
 

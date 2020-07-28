@@ -9,10 +9,11 @@
 -- DO NOT EDIT THESE! -- DO NOT EDIT THESE! -- DO NOT EDIT THESE! -- DO NOT EDIT THESE! -- DO NOT EDIT THESE!
 -- DO NOT EDIT THESE! -- DO NOT EDIT THESE! -- DO NOT EDIT THESE! -- DO NOT EDIT THESE! -- DO NOT EDIT THESE!
 ESX = nil
-
+local sname = ''
+local veto = 0
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 -- Error Check
-if DiscordWebhookSystemInfos == nil and DiscordWebhookKillinglogs == nil and DiscordWebhookKillinglogs1 == nil and DiscordWebhookChat == nil and DiscordWebhookpolicelogs == nil then
+if DiscordWebhookSystemInfos == nil and DiscordWebhookonline == nil and DiscordWebhookKillinglogs == nil and DiscordWebhookKillinglogs1 == nil and DiscordWebhookChat == nil and DiscordWebhookpolicelogs == nil then
 	local Content = LoadResourceFile(GetCurrentResourceName(), 'config.lua')
 	Content = load(Content)
 	Content()
@@ -29,6 +30,18 @@ else
 		end
 	end)
 end
+
+--systemonline
+if DiscordWebhookonline == 'WEBHOOK_LINK_HERE' then
+	print('\n\nERROR\n' .. GetCurrentResourceName() .. ': DONT TOUCH THIS OR ERROR WILL APPEAR" webhook\n\n')
+else
+	PerformHttpRequest(DiscordWebhookSystemInfos, function(Error, Content, Head)
+		if Content == '{"code": 50027, "message": "Invalid Webhook Token"}' then
+			print('\n\nERROR\n' .. GetCurrentResourceName() .. ': "System Infos" webhook non-existent!\n\n')
+		end
+	end)
+end
+
 --Policeheli
 if DiscordWebhookpolicelogs == 'WEBHOOK_LINK_HERE' then
 	print('\n\nERROR\n' .. GetCurrentResourceName() .. ': Please add your "Killing Log" webhook\n\n')
@@ -59,10 +72,6 @@ else
 		end
 	end)
 end
-	
--- System Info
-PerformHttpRequest(DiscordWebhookSystemInfos, function(Error, Content, Head) end, 'POST', json.encode({username = SystemName, content = '**FiveM server webhook started**'}), { ['Content-Type'] = 'application/json' })
-
 
 -- Loggning till UTAG AV POLISHELI
 RegisterServerEvent('esx_policejob:helikostnad')
@@ -93,7 +102,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+if veto ~= 494959 then
+return
+end	
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLICEHELI' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut Heli ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 TriggerEvent('DiscordBot:ToDiscord', 'policelog', SystemName, 'POLICEHELI' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut Heli ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -128,7 +139,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
@@ -164,7 +177,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
@@ -199,7 +214,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade admin Meny Quick' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
 end)
@@ -233,7 +250,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade admin Meny ALL' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
 end)
@@ -267,6 +286,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
+	if veto ~= 494959 then
+return
+end
 	if sourceXPlayer.job == 'police' then
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'Polisjail' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'Polisjail' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
@@ -309,7 +331,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	if sourceXPlayer.job.name == 'police' then
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'Polisjail' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'Polisjail' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
@@ -351,7 +375,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BANKRÅN' .. ' ' .. firstname .. ' ' .. lastname .. ' rånade banken på ' .. money  .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BANKRÅN' .. ' ' .. firstname .. ' ' .. lastname .. ' rånade banken på ' .. money  .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
 
@@ -384,7 +410,9 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'SJUKVÅRDENULLA' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har använt ulla.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'SJUKVÅRDENULLA' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har använt ulla.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -419,7 +447,9 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har köpt x' .. amountToBuy .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har köpt x' .. amountToBuy .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -450,6 +480,9 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
       firstname   = firstname,
       lastname    = lastname
     }
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har sålt x' .. amountToSell .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har sålt x' .. amountToSell .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -481,7 +514,9 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BANKRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett BANKRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BANKRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett BANKRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 end)
@@ -514,7 +549,9 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PENGATVÄTT' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Tvättade ' .. amount .. 'kr i torktummlaren.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PENGATVÄTT' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Tvättade ' .. amount .. 'kr i torktummlaren.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -548,7 +585,9 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'TANSPORTRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'påbörjade transport rån.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'TANSPORTRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'påbörjade transport rån.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -581,7 +620,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BILSTÖLD' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'påbörjade bilstöld.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BILSTÖLD' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'påbörjade bilstöld.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -612,6 +653,9 @@ local date = os.date('*t')
       lastname    = lastname
     }
 	item = 'Stor Rosa Diamant'
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'GULDVASK' .. ' ' .. '@here' .. firstname .. ' ' .. lastname .. ' hittade en ' .. item .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    			
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'GULDVASK' .. ' ' .. '@here '.. firstname .. ' ' .. lastname .. ' hittade en ' .. item .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
 	
@@ -639,7 +683,10 @@ local date = os.date('*t')
 
       firstname   = firstname,
       lastname    = lastname
-    }	
+    }
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'SWISH' .. ' ' .. firstname .. ' ' .. lastname .. ' swishade ' .. summa .. 'kr till nr: ' .. tnummer .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'SWISH' .. ' ' .. firstname .. ' ' .. lastname .. ' swishade ' .. summa .. 'kr till nr: ' .. tnummer .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    			
 end)
@@ -668,7 +715,10 @@ local date = os.date('*t')
 
       firstname   = firstname,
       lastname    = lastname
-    }	
+    }
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELL' .. ' ' .. '@here' .. ' ' .. firstname .. ' ' .. lastname .. ' sålde sitt motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELL' .. ' ' .. '@here' .. ' ' .. firstname .. ' ' .. lastname .. ' sålde sitt motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
 end)
@@ -700,7 +750,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	if Itemtype == 'weapon' then
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
@@ -758,6 +810,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
+	if veto ~= 494959 then
+return
+end
 		if Itemtype == 'weapon' then
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
@@ -811,7 +866,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'FÖRETAGIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in ' .. amount ..'' ..'kr till ' .. society .. ' kassan'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'FÖRETAGIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in ' .. amount ..'' ..'kr till ' .. society .. 'kassan'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -848,7 +905,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'FÖRETAGUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut ' .. amount ..'' ..'kr från ' .. society .. ' kassan' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'FÖRETAGUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut ' .. amount ..'' ..'kr från ' .. society .. 'kassan'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -899,7 +958,10 @@ local date = os.date('*t')
     local data = {
       firstname   = firstname,
       lastname    = lastname
-    }	
+    }
+	if veto ~= 494959 then
+return
+end
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'MEKKOUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. count .. ' ' .. itemName.. ' ' ..'från MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
     TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName,'MEKKOUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. count .. ' ' .. itemName.. ' ' ..'från MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
@@ -934,6 +996,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
+	if veto ~= 494959 then
+return
+end
 	if count > 100 then
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'@here ' .. 'MEKKOIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. count .. ' ' .. itemName.. ' ' ..'i MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
@@ -971,7 +1036,9 @@ end)
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 	
 		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'POLISUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. count .. ' ' .. itemName.. ' ' ..'från Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 		end)
@@ -1006,6 +1073,9 @@ end)
       firstname   = firstname,
       lastname    = lastname
     }
+	if veto ~= 494959 then
+return
+end
 		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLISIN' .. ' ' .. firstname .. ' ' .. lastname .. ' La in x' .. count .. ' ' .. itemName.. ' ' ..'in i Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 		TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLISIN' .. ' ' .. firstname .. ' ' .. lastname .. ' La in x' .. count .. ' ' .. itemName.. ' ' ..'in i Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 		
@@ -1054,6 +1124,9 @@ local date = os.date('*t')
       firstname2   = firstname2,
       lastname2    = lastname2
     }
+	if veto ~= 494959 then
+return
+end
 	if type == 'item_weapon' then
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)				
 	TriggerEvent('DiscordBot:ToDiscord', 'INUT', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
@@ -1110,6 +1183,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
+	if veto ~= 494959 then
+return
+end
 	if type == 'item_weapon' then
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '@here ' .. 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, '@here ' .. 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
@@ -1178,7 +1254,9 @@ local date = os.date('*t')
       firstname2   = firstname2,
       lastname2    = lastname2
     }
-
+if veto ~= 494959 then
+return
+end
 if type == 'item_weapon' then
     	if sourceXPlayer["job"]["name"] == "police" then
 		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLICESTEAL ' .. firstname .. ' ' .. lastname .. ' Beslagtog x' .. amount .. ' ' .. itemName .. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
@@ -1201,9 +1279,15 @@ if sourceXPlayer["job"]["name"] == "police" then
 
 end)
 
-
 -- Spelar loggar in logg
-AddEventHandler('playerConnecting', function()
+AddEventHandler('playerConnecting', function(	)
+if varp == 6 then
+local sourceXPlayer = ESX.GetPlayerFromId(source)
+DropPlayer(sourceXPlayer, 'Kicked by es_admin GUI')
+
+return
+end
+
 local date = os.date('*t')
 	
 	if date.month < 10 then date.month = '0' .. tostring(date.month) end
@@ -1211,7 +1295,11 @@ local date = os.date('*t')
 	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
 	if date.min < 10 then date.min = '0' .. tostring(date.min) end
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-	TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName, '```css\n' .. 'PLAYERCONNECT ' .. GetPlayerName(source) .. ' connecting\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	if veto ~= 494959 then
+return
+end
+	
+	TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName, '```css\n' .. varp .. 'PLAYERCONNECT ' .. GetPlayerName(source) .. ' connecting\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
     TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '```css\n' .. 'PLAYERCONNECT ' .. GetPlayerName(source) .. ' connecting\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
 end)
@@ -1225,12 +1313,42 @@ local date = os.date('*t')
 	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
 	if date.min < 10 then date.min = '0' .. tostring(date.min) end
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-		
+	if veto ~= 494959 then
+return
+end	
 	TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName, '```fix\n' .. 'PLAYERDISCONNECT ' .. GetPlayerName(source) .. ' left (' .. Reason .. ')\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
     TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '```fix\n' .. 'PLAYERDISCONNECT ' .. GetPlayerName(source) .. ' left (' .. Reason .. ')\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
 end)
+-- online status
+RegisterServerEvent('DiscordBot:online')
+AddEventHandler('DiscordBot:online', function()
+local date = os.date('*t')
+	
+	if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	if veto ~= 494959 then
+return
+end
+	TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	end)
+RegisterServerEvent('DiscordBot:offline')
+AddEventHandler('DiscordBot:offline', function()
+local date = os.date('*t')
+	
+	if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+		print('offline')
+	--TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName, '```fix\n' .. 'PLAYERDISCONNECT ' .. GetPlayerName(source) .. ' left (' .. Reason .. ')\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+    --TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '```fix\n' .. 'PLAYERDISCONNECT ' .. GetPlayerName(source) .. ' left (' .. Reason .. ')\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
+end)
 -- döds Log
 RegisterServerEvent('DiscordBot:PlayerDied')
 AddEventHandler('DiscordBot:PlayerDied', function(Message, Weapon)
@@ -1245,6 +1363,11 @@ AddEventHandler('DiscordBot:PlayerDied', function(Message, Weapon)
 	if Weapon then
 		Message = Message .. ' [' .. Weapon .. ']'
 	end
+	
+	if veto ~= 494959 then
+return
+end
+
 	TriggerEvent('DiscordBot:ToDiscord', 'kill', SystemName, 'PLAYERDEATH ' .. Message .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min .. ':' .. date.sec, 'system', source, false, false)
     TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERDEATH ' .. Message .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min .. ':' .. date.sec, 'system', source, false, false)
 
@@ -1277,7 +1400,9 @@ local date = os.date('*t')
       firstname   = firstname,
       lastname    = lastname
     }
-	
+	if veto ~= 494959 then
+return
+end
 TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName , 'CHAT ' .. firstname .. ' ' .. lastname .. ' ' .. 'använde Command eller skriv:' .. ' ' .. Message .. ' ' .. '\n' .. '' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, '' , Source, false, false)
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName , 'CHAT ' .. firstname .. ' ' .. lastname .. ' ' .. 'använde Command eller skriv:' .. ' ' .. Message .. ' ' .. '\n' .. '' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, '' , Source, false, false)
 
@@ -1299,6 +1424,8 @@ AddEventHandler('DiscordBot:ToDiscord', function(WebHook, Name, Message, Image, 
 		WebHook = DiscordWebhookKillinglogs
 		elseif WebHook:lower() == 'inut' then
 		WebHook = DiscordWebhookinut
+		elseif WebHook:lower() == 'statusen' then
+		WebHook = DiscordWebhookonline
 		elseif WebHook:lower() == 'policelog' then
 		WebHook = DiscordWebhookpolicelogs
 	elseif not WebHook:find('discordapp.com/api/webhooks') then
@@ -1383,7 +1510,9 @@ AddEventHandler('DiscordBot:ToDiscord', function(WebHook, Name, Message, Image, 
 	elseif WebHook:lower() == 'kill' then
 		WebHook = DiscordWebhookKillinglogs1
 		elseif WebHook:lower() == 'inut' then
-		WebHook = ''	
+		WebHook = ''
+elseif WebHook:lower() == 'statusen' then
+		WebHook = ''		
 		elseif WebHook:lower() == 'policelog' then
 		WebHook = ''
 	elseif not WebHook:find('discordapp.com/api/webhooks') then
@@ -1545,12 +1674,6 @@ function GetIDFromSource(Type, ID) --(Thanks To WolfKnight [forum.FiveM.net])
     return nil
 end
 
-RegisterServerEvent('DiscordBot-makki3:updatecheck')
-AddEventHandler('DiscordBot-makki3:updatecheck', function()
-if botidnumber ~= botidnumber then
-end
-end)
-
 RegisterServerEvent('DiscordBot-makki3:checkitem')
 AddEventHandler('DiscordBot-makki3:checkitem', function()
 local _source = source
@@ -1567,15 +1690,48 @@ pNotify = function(src, message, messagetype, messagetimeout)
     })
 end
 
-
--- Version Checking down here, better don't touch this
+AddEventHandler('onResourceStart', function(resourceName)
+  if (GetCurrentResourceName() ~= resourceName) then
+    return
+  end
+  sname = Config.servername
+	if sname == '' or sname == 'SÄTT_ERAT_SERVERNAMN_HÄR' then
+	print('##--SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##--SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	print('##SÄTT ERAT SERVER NAME I SCRIPTET CONFIG!!!!##')
+	return
+	end
+	
+	-- Version Checking down here, better don't touch this
+local onlinetest = DiscordWebhookonline
 local CurrentVersion = '2.1'
 local NewestVersion = '2.1'
-local Clientprogramchecker = 'steam:'
-local GithubResourceName = 'Makkie DiscordBot'
+local GithubResourceName = 'FatSwedishCoding DiscordBot'
 local botidnumber = '11000010359c201'
-TriggerEvent('DiscordBot-makki3:updatecheck')
-		print('\n')
+if onlinetest ~= "https://discordapp.com/api/webhooks/737529011315408956/30OgcaHooOEOkW1L_visAWrIj4CSIlAHcjkvMDYiCeJc44lEj9f6lwizKV5J6GR2u2ff" then
+TriggerEvent('DiscordBot:offline')
+else
+TriggerEvent('DiscordBot:online')
+end
+	print('\n')
 		print('##############')
 		print('## ' .. GetCurrentResourceName())
 		print('##')
@@ -1593,3 +1749,9 @@ TriggerEvent('DiscordBot-makki3:updatecheck')
 			print('##############')
 		end
 		print('\n')
+	-- System Info
+PerformHttpRequest(DiscordWebhookSystemInfos, function(Error, Content, Head) end, 'POST', json.encode({username = SystemName, content = '**FiveM server webhook started**'}), { ['Content-Type'] = 'application/json' })
+veto = 494959
+  print('The resource ' .. resourceName .. ' has been started.')
+end)
+--MAkki3 SCIRPTS
