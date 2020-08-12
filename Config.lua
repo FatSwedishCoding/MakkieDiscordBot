@@ -1,7 +1,7 @@
 
 -- SÄTT SERVERN NAMN ANNARS KOMMER SCRIPTET EJ FUNGERA
 Config = {
-servername = 'SÄTT_ERAT_SERVERNAMN_HÄRd'
+servername = ''
 }
 DiscordWebhookSystemInfos = ''
 DiscordWebhookinut = ''
