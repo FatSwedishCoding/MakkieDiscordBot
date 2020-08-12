@@ -3,7 +3,7 @@
 Config = {
 servername = 'SÄTT_ERAT_SERVERNAMN_HÄRd'
 }
-DiscordWebhookSystemInfos = 'https://discordapp.com/api/webhooks/507009944185339905/vniPy9p6a-bzuFq9-plC_uxvlIv9NLFPCtd_0Kovnc58EfJqKmGDBk_2QWrIbunpAsNU'
+DiscordWebhookSystemInfos = ''
 DiscordWebhookinut = ''
 
 DiscordWebhookKillinglogs = ''
