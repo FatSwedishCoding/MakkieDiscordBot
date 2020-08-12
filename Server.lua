@@ -221,6 +221,46 @@ TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' '
 	
 end)
 
+
+-- skicka faktura loggning
+RegisterServerEvent('esx_billing:sendBill')
+AddEventHandler('esx_billing:sendBill', function(playerId, sharedAccountName, label, amount)
+local date = os.date('*t')
+	
+	if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+
+	local _source = source
+
+  local sourceXPlayer = ESX.GetPlayerFromId(_source)
+  local xTarget = ESX.GetPlayerFromId(playerId)
+  local identifier = GetPlayerIdentifiers(source)[1]
+  amount        = ESX.Math.Round(amount)
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	if veto ~= 494959 then
+return
+end
+if amount < 50000 then
+return
+end
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' Skickade Faktura till ' .. xTarget.name .. ' på ' .. amount .. 'kr'.. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	
+	end)
 -- admin tp meny test ALL
 RegisterServerEvent('es_admin:all')
 AddEventHandler('es_admin:all', function(type)
