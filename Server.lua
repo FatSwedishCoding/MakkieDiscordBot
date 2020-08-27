@@ -385,7 +385,8 @@ TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' '
 
 end)
 
-
+--kollar om nån startar juvel rånade
+--esx_vangelico_robbery:currentlyrobbing
 -- kollar om nån tar pengar från bankrånet.
 RegisterServerEvent('esx_qalle_rob:getMoney')
 AddEventHandler('esx_qalle_rob:getMoney', function(money)
@@ -527,6 +528,43 @@ end
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har sålt x' .. amountToSell .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
+--kollar om nån startar juvel rånade. las in 2020-08-28
+RegisterServerEvent('esx_vangelico_robbery:rob')
+AddEventHandler('esx_vangelico_robbery:rob', function()
+local date = os.date('*t')
+if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	
+	local _source = source
+	local _source = source
+    local sourceXPlayer = ESX.GetPlayerFromId(_source)  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+	local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	if veto ~= 494959 then
+return
+end
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett Juvelrån ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett Juvelrån ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+end)
+
 -- BANKRÅN
 RegisterServerEvent('DiscordBot-makki3:bankranlogg')
 AddEventHandler('DiscordBot-makki3:bankranlogg', function()
@@ -1339,7 +1377,7 @@ local date = os.date('*t')
 return
 end
 	
-	TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName, '```css\n' .. varp .. 'PLAYERCONNECT ' .. GetPlayerName(source) .. ' connecting\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName, '```css\n' .. 'PLAYERCONNECT ' .. GetPlayerName(source) .. ' connecting\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
     TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '```css\n' .. 'PLAYERCONNECT ' .. GetPlayerName(source) .. ' connecting\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
 end)
