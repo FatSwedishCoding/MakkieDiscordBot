@@ -85,7 +85,7 @@ else
 	end)
 end
 
--- Loggning till UTAG AV POLISHELI
+-- Loggning till UTAG AV POLISHELI(Loggs of when police takes out PoliceHelicopter.
 RegisterServerEvent('esx_policejob:helikostnad')
 AddEventHandler('esx_policejob:helikostnad', function()
 local date = os.date('*t')
@@ -122,7 +122,7 @@ TriggerEvent('DiscordBot:ToDiscord', 'policelog', SystemName, 'POLICEHELI' .. ' 
 
 end)
 
--- logging 2 av pimping i mekko
+-- logging 2 av pimping i mekko(Logs 2 of when pimping in LSCustoms)
 RegisterServerEvent('esx_lscustom:buyMod')
 AddEventHandler('esx_lscustom:buyMod', function(price)
 local date = os.date('*t')
@@ -160,7 +160,7 @@ TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MEKKOPIMP' .. ' ' .. f
 	
 end)
 
--- logging av pimpning i mekko
+-- logging av pimpning i mekko(Logs of pimping in LsCustom)
 RegisterNetEvent('esx_lscustom:installMod')
 AddEventHandler('esx_lscustom:installMod', function()
 local date = os.date('*t')
@@ -234,7 +234,7 @@ TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' '
 end)
 
 
--- skicka faktura loggning
+-- skicka faktura loggning (Send bill logs)
 RegisterServerEvent('esx_billing:sendBill')
 AddEventHandler('esx_billing:sendBill', function(playerId, sharedAccountName, label, amount)
 local date = os.date('*t')
@@ -309,7 +309,7 @@ TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' '
 	
 end)
 
--- kolla om nån öppnar jail meny
+-- kolla om nån öppnar jail meny(Logs if somone open Jail Meny)
 RegisterNetEvent("esx-qalle-jail:openJailMenu")
 AddEventHandler("esx-qalle-jail:openJailMenu", function()
 local date = os.date('*t')
@@ -354,7 +354,7 @@ TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning1' .. ' 
 	OpenJailMenu()
 end)
 
--- Visar om nån använder jail meny, "även poliser"
+-- Visar om nån använder jail meny, "även poliser" (an other logs of Jail system)
 RegisterNetEvent("esx-qalle-jail:jailPlayer")
 AddEventHandler("esx-qalle-jail:jailPlayer", function(newJailTime)
 local date = os.date('*t')
@@ -398,7 +398,7 @@ TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' '
 end)
 
 
--- kollar om nån tar pengar från bankrånet.
+-- kollar om nån tar pengar från bankrånet.(logs when somone takes money from bankrobbery)
 RegisterServerEvent('esx_qalle_rob:getMoney')
 AddEventHandler('esx_qalle_rob:getMoney', function(money)
 local date = os.date('*t')
@@ -435,7 +435,7 @@ TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BANKRÅN' .. ' ' .. 
 
 end)
 
---SJukvårdarloggen
+--SJukvårdarloggen(logs if somone check in at npc hospital)
 RegisterServerEvent('mythic_hospital:ullalogg')
 AddEventHandler('mythic_hospital:ullalogg', function()
 
@@ -472,7 +472,7 @@ end)
 
 -- KRIMINELLA SAKER
 
--- KÖPT PÅ BLACKMARKET
+-- KÖPT PÅ BLACKMARKET (logs if somone buy in blackmarket)
 RegisterServerEvent("esx_PawnShop:BuyItem")
 AddEventHandler("esx_PawnShop:BuyItem", function(amountToBuy,totalBuyPrice,itemName)
 local date = os.date('*t')
@@ -506,7 +506,7 @@ end
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har köpt x' .. amountToBuy .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
--- SÄLJA PÅ BLACKMARKET
+-- SÄLJA PÅ BLACKMARKET (Logs if somone sell item on blackmarket)
 RegisterServerEvent("esx_PawnShop:SellItem")
 AddEventHandler("esx_PawnShop:SellItem", function(amountToSell,totalSellPrice,itemName)
 local date = os.date('*t')
@@ -540,7 +540,7 @@ end
 
 end)
 
---kollar om nån startar juvel rånade
+--kollar om nån startar juvel rånade(logs if somone robs juewelry)
 RegisterServerEvent('esx_vangelico_robbery:rob')
 AddEventHandler('esx_vangelico_robbery:rob', function()
 local date = os.date('*t')
@@ -576,7 +576,7 @@ end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett JUVELRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett JUVELRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 end)
--- BANKRÅN
+-- BANKRÅN (logs Bankrobberies)
 RegisterServerEvent('DiscordBot-makki3:bankranlogg')
 AddEventHandler('DiscordBot-makki3:bankranlogg', function()
 local date = os.date('*t')
@@ -610,7 +610,7 @@ end
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BANKRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett BANKRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 end)
 
--- TVÄTTA PENGAR
+-- TVÄTTA PENGAR(logs when somone washing black money)
 RegisterServerEvent('esx_moneywash:washMoney')
 AddEventHandler('esx_moneywash:washMoney', function(amount)
 
@@ -646,7 +646,7 @@ end
 
 end)
 
--- VÄRDETRANSPORT RÅNET
+-- VÄRDETRANSPORT RÅNET(logs Money truck robbery)
 RegisterServerEvent('transportran:start')
 AddEventHandler('transportran:start', function()
 
@@ -682,7 +682,7 @@ end
 
 end)
 
--- BILSTÖLD
+-- BILSTÖLD(logs carthief)
 RegisterServerEvent('loffe_carthief:loggen')
 AddEventHandler('loffe_carthief:loggen', function()
 local date = os.date('*t')
@@ -716,7 +716,7 @@ end
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BILSTÖLD' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'påbörjade bilstöld.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
--- ifall någon hittar en Stor röd Diamant.
+-- ifall någon hittar en Stor röd Diamant.(Logs if somone get Red Diamond in gold rush river)
 RegisterServerEvent('abbeguldvask:hittadia')
 AddEventHandler('abbeguldvask:hittadia', function(source,item)
 local date = os.date('*t')
@@ -749,7 +749,7 @@ end
 	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'GULDVASK' .. ' ' .. '@here '.. firstname .. ' ' .. lastname .. ' hittade en ' .. item .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
 	
 end)
--- Lägga SWISH/IN/UT/KASTAR/GER ITEMS/WEAPON/PENGAR
+-- Lägga SWISH/IN/UT/KASTAR/GER ITEMS/WEAPON/PENGAR (logs swish transfers)
 RegisterServerEvent('esx_phone:swish')
 AddEventHandler('esx_phone:swish', function(summa, tnummer)
 local date = os.date('*t')
@@ -781,7 +781,7 @@ end
 end)
 
 
--- MOTELL GREJOR
+-- MOTELL GREJOR(logs abuse when people sell motel room)
 RegisterServerEvent('james_motels:sellmotels1')
 AddEventHandler('james_motels:sellmotels1', function(source)
 local date = os.date('*t')
@@ -811,7 +811,7 @@ end
 	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELL' .. ' ' .. '@here' .. ' ' .. firstname .. ' ' .. lastname .. ' sålde sitt motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELL' .. ' ' .. '@here' .. ' ' .. firstname .. ' ' .. lastname .. ' sålde sitt motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
 end)
---
+-- loggar om utag items(logs if somone withdraw from motel storage)
 RegisterServerEvent('james_motels:takeItemFromStorage1')
 AddEventHandler('james_motels:takeItemFromStorage1', function(itemName, Itemcount, Itemtype)
 
@@ -870,7 +870,7 @@ RegisterServerEvent('james_motels:addItemToStorage1')
 AddEventHandler('james_motels:addItemToStorage1', function()
 end)
 
--- LÄGGA IN ITEMS I MOTELLET!
+-- LÄGGA IN ITEMS I MOTELLET! (logs if somone deposit items in motel)
 RegisterServerEvent('james_motels:addItemToStorage1')
 AddEventHandler('james_motels:addItemToStorage1', function(itemName, Itemcount, Itemtype)
 
@@ -925,7 +925,7 @@ end
 	
 end)
 
--- Kollar om nån lägger in pengar i företag
+-- Kollar om nån lägger in pengar i företag(logs deposit money in a company)
 RegisterServerEvent('esx_society:depositMoney')
 AddEventHandler('esx_society:depositMoney', function(society, amount)
 local date = os.date('*t')
@@ -963,7 +963,7 @@ end
 
 end)
 
---Kollar om nån tar ut pengar ur företag
+--Kollar om nån tar ut pengar ur företag (logs when somone withdraw money from company)
 RegisterServerEvent('esx_society:withdrawMoney')
 AddEventHandler('esx_society:withdrawMoney', function(society, amount)
 local asociety = society
@@ -1002,7 +1002,7 @@ end
 
 end)
 
--- Kollar om mekko tar ut grejor ur stash
+-- Kollar om mekko tar ut grejor ur stash(logs if mechanic withdraw items from company)
 RegisterServerEvent('esx_mechanicjob:getStockItem')
 AddEventHandler('esx_mechanicjob:getStockItem', function(itemName, count)
 local date = os.date('*t')
@@ -1056,7 +1056,7 @@ end
 
 end)
 
--- Kollar om Mekko lägger in grejor i stash
+-- Kollar om Mekko lägger in grejor i stash(logs if mechanic deposit item in the company)
 RegisterServerEvent('esx_mechanicjob:putStockItems')
 AddEventHandler('esx_mechanicjob:putStockItems', function(itemName, count)
 local date = os.date('*t')
@@ -1096,7 +1096,7 @@ end
     TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName,'MEKKOIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. count .. ' ' .. itemName.. ' ' ..'i MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 end)
 
-		-- Loggar Om du tar ut items(ej vapen) ur stashen polisen.
+		-- Loggar Om du tar ut items(ej vapen) ur stashen polisen.(logs when police withdraw items from police.
 		RegisterServerEvent('esx_policejob:getStockItem')
 		AddEventHandler('esx_policejob:getStockItem', function(itemName, count)
 		local date = os.date('*t')
@@ -1133,7 +1133,7 @@ end
 		end)
 		
 		
-		--Loggar om polisen lägger in items(ej vapen) i polis Stashen(kurragömma)
+		--Loggar om polisen lägger in items(ej vapen) i polis Stashen(kurragömma) (logs when police deposit items)
 		RegisterServerEvent('esx_policejob:putStockItems')
 		AddEventHandler('esx_policejob:putStockItems', function(itemName, count)
 		local date = os.date('*t')
@@ -1169,7 +1169,7 @@ end
 		TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLISIN' .. ' ' .. firstname .. ' ' .. lastname .. ' La in x' .. count .. ' ' .. itemName.. ' ' ..'in i Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 		
 		end)	
-				-- ge items till andra
+				-- ge items till andra (logs when somone hand over items to somone else)
 RegisterServerEvent('esx:giveInventoryItem')
 AddEventHandler('esx:giveInventoryItem', function(target, type, itemName, itemCount)
 -- datum och tid
@@ -1240,7 +1240,7 @@ end
 	
 end)	
 
-		--DROPA ITEMS
+		--DROPA ITEMS (logs when someone drop an item)
 		RegisterServerEvent('esx:removeInventoryItem')
 AddEventHandler('esx:removeInventoryItem', function(type, itemName, itemCount)
 -- datum och tid
@@ -1301,7 +1301,7 @@ end
 		
 		end)
 	
--- sno items
+-- sno items (logs if somone steal items from somone)
 RegisterServerEvent('esx_policejob:confiscatePlayerItem')
 AddEventHandler('esx_policejob:confiscatePlayerItem', function(target, itemType, itemName, amount)
 local date = os.date('*t')
@@ -1368,7 +1368,7 @@ if sourceXPlayer["job"]["name"] == "police" then
 
 end)
 
--- Spelar loggar in logg
+-- Spelar loggar in logg (logs connection players)
 AddEventHandler('playerConnecting', function(	)
 if varp == 6 then
 local sourceXPlayer = ESX.GetPlayerFromId(source)
@@ -1393,7 +1393,7 @@ end
 
 end)
 
--- Spelar Loggar ut logg
+-- Spelar Loggar ut logg(logs logout connections)
 AddEventHandler('playerDropped', function(Reason)
 local date = os.date('*t')
 	
@@ -1438,7 +1438,7 @@ local date = os.date('*t')
     --TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '```fix\n' .. 'PLAYERDISCONNECT ' .. GetPlayerName(source) .. ' left (' .. Reason .. ')\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
 end)
--- döds Log
+-- döds Log (logs death events)
 RegisterServerEvent('DiscordBot:PlayerDied')
 AddEventHandler('DiscordBot:PlayerDied', function(Message, Weapon)
 	local date = os.date('*t')
@@ -1462,7 +1462,7 @@ end
 
 end)
 
--- Chat logg
+-- Chat logg (logs chat)
 AddEventHandler('chatMessage', function(Source, Name, Message)
 local date = os.date('*t')
 	if date.month < 10 then date.month = '0' .. tostring(date.month) end
