@@ -13,7 +13,7 @@ local sname = ''
 local veto = 0
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 -- Error Check
-if DiscordWebhookSystemInfos == nil and DiscordWebhookonline == nil and DiscordWebhookKillinglogs == nil and DiscordWebhookKillinglogs1 == nil and DiscordWebhookChat == nil and DiscordWebhookpolicelogs == nil then
+if DiscordWebhookSystemInfos == nil and DiscordWebhookonline == nil and DiscordWebhookbennylogs == nil and DiscordWebhookKillinglogs == nil and DiscordWebhookKillinglogs1 == nil and DiscordWebhookChat == nil and DiscordWebhookpolicelogs == nil then
 	local Content = LoadResourceFile(GetCurrentResourceName(), 'config.lua')
 	Content = load(Content)
 	Content()
@@ -41,6 +41,18 @@ else
 		end
 	end)
 end
+
+--Policeheli
+if DiscordWebhookbennylogs == 'WEBHOOK_LINK_HERE' then
+	print('\n\nERROR\n' .. GetCurrentResourceName() .. ': Please add your "benny Log" webhook\n\n')
+else
+	PerformHttpRequest(DiscordWebhookpolicelogs, function(Error, Content, Head)
+		if Content == '{"code": 50027, "message": "Invalid Webhook Token"}' then
+			print('\n\nERROR\n' .. GetCurrentResourceName() .. ': "bennyloggen" webhook non-existent!\n\n')
+		end
+	end)
+end
+
 
 --Policeheli
 if DiscordWebhookpolicelogs == 'WEBHOOK_LINK_HERE' then
@@ -143,7 +155,7 @@ local date = os.date('*t')
 return
 end
 TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-
+TriggerEvent('DiscordBot:ToDiscord', 'benny', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
 end)
@@ -385,8 +397,7 @@ TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' '
 
 end)
 
---kollar om nån startar juvel rånade
---esx_vangelico_robbery:currentlyrobbing
+
 -- kollar om nån tar pengar från bankrånet.
 RegisterServerEvent('esx_qalle_rob:getMoney')
 AddEventHandler('esx_qalle_rob:getMoney', function(money)
@@ -528,7 +539,8 @@ end
     TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har sålt x' .. amountToSell .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
---kollar om nån startar juvel rånade. las in 2020-08-28
+
+--kollar om nån startar juvel rånade
 RegisterServerEvent('esx_vangelico_robbery:rob')
 AddEventHandler('esx_vangelico_robbery:rob', function()
 local date = os.date('*t')
@@ -561,10 +573,9 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett Juvelrån ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett Juvelrån ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett JUVELRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett JUVELRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 end)
-
 -- BANKRÅN
 RegisterServerEvent('DiscordBot-makki3:bankranlogg')
 AddEventHandler('DiscordBot-makki3:bankranlogg', function()
@@ -1411,7 +1422,7 @@ local date = os.date('*t')
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. ' Version: ' .. CurrentVersion .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 	end)
 RegisterServerEvent('DiscordBot:offline')
 AddEventHandler('DiscordBot:offline', function()
@@ -1502,6 +1513,10 @@ AddEventHandler('DiscordBot:ToDiscord', function(WebHook, Name, Message, Image, 
 		WebHook = DiscordWebhookKillinglogs
 		elseif WebHook:lower() == 'inut' then
 		WebHook = DiscordWebhookinut
+
+		elseif WebHook:lower() == 'benny' then
+		WebHook = DiscordWebhookbennylogs
+
 		elseif WebHook:lower() == 'statusen' then
 		WebHook = DiscordWebhookonline
 		elseif WebHook:lower() == 'policelog' then
@@ -1800,8 +1815,8 @@ AddEventHandler('onResourceStart', function(resourceName)
 	
 	-- Version Checking down here, better don't touch this
 local onlinetest = DiscordWebhookonline
-local CurrentVersion = '2.1'
-local NewestVersion = '2.1'
+CurrentVersion = '2.3.1'
+local NewestVersion = '2.3.1'
 local GithubResourceName = 'FatSwedishCoding DiscordBot'
 local botidnumber = '11000010359c201'
 if onlinetest ~= "https://discordapp.com/api/webhooks/737529011315408956/30OgcaHooOEOkW1L_visAWrIj4CSIlAHcjkvMDYiCeJc44lEj9f6lwizKV5J6GR2u2ff" then
@@ -1837,7 +1852,8 @@ local date = os.date('*t')
 	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
 	if date.min < 10 then date.min = '0' .. tostring(date.min) end
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. 'V' .. CurrentVersion .. ' - '.. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false) 
   print('The resource ' .. resourceName .. ' has been started.')
 end)
 --MAkki3 SCIRPTS
+-- VERSION 2.3.1

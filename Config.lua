@@ -1,5 +1,5 @@
 
--- SÄTT SERVERN NAMN ANNARS KOMMER SCRIPTET EJ FUNGERA
+-- SÄTT SERVERN NAMN ANNARS KOMMER SCRIPTET EJ FUNGERA(INPUT YOUR DISCORDWEBHOOK OTHERWISE THE SCRIPT WONT WORK)
 Config = {
 servername = ''
 }
@@ -9,8 +9,10 @@ DiscordWebhookinut = ''
 DiscordWebhookKillinglogs = ''
 DiscordWebhookChat = ''
 DiscordWebhookpolicelogs = ''
+-- ALTERNETIVE, FOR LOGS ON BENNY
+DiscordWebhookbennylogs = ''
 
---RÖR EJ DÅ KOMMER SCRIPTET CRASHA.
+--RÖR EJ DÅ KOMMER SCRIPTET CRASHA. (DONT TOUCH IF YOU DO THE SCRIPT WILL CRASH)
 DiscordWebhookonline = 'https://discordapp.com/api/webhooks/737529011315408956/30OgcaHooOEOkW1L_visAWrIj4CSIlAHcjkvMDYiCeJc44lEj9f6lwizKV5J6GR2u2ff'
 
 SystemAvatar = 'https://wiki.fivem.net/w/images/d/db/FiveM-Wiki.png'
