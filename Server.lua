@@ -1783,6 +1783,7 @@ pNotify = function(src, message, messagetype, messagetimeout)
     })
 end
 
+
 AddEventHandler('onResourceStart', function(resourceName)
   if (GetCurrentResourceName() ~= resourceName) then
     return
@@ -1815,36 +1816,40 @@ AddEventHandler('onResourceStart', function(resourceName)
 	
 	-- Version Checking down here, better don't touch this
 local onlinetest = DiscordWebhookonline
-CurrentVersion = '2.3.1'
-local NewestVersion = '2.3.1'
+CurrentVersion = '2.3.2'
+_FirstCheckPerformed = false
+
+local VersionAPIRequest = "https://raw.githubusercontent.com/FatSwedishCoding/MakkieDiscordBot/master/version.txt"
 local GithubResourceName = 'FatSwedishCoding DiscordBot'
 local botidnumber = '11000010359c201'
 if onlinetest ~= "https://discordapp.com/api/webhooks/737529011315408956/30OgcaHooOEOkW1L_visAWrIj4CSIlAHcjkvMDYiCeJc44lEj9f6lwizKV5J6GR2u2ff" then
 TriggerEvent('DiscordBot:offline')
-else
---TriggerEvent('DiscordBot:online')
 end
-	print('\n')
-		print('##############')
+-- Server
+	
+	PerformHttpRequest(VersionAPIRequest, function(code, text, headers)
+print('\n##############')
+print("Performing version check against: " .. VersionAPIRequest)
 		print('## ' .. GetCurrentResourceName())
-		print('##')
-		print('## Current Version: ' .. CurrentVersion)
-		print('## Newest Version: ' .. CurrentVersion)
-		print('##')
-		if CurrentVersion ~= CurrentVersion then
-			print('## Outdated')
-			print('## Check the Topic')
+if text ~= CurrentVersion then
+        print('## Current Version: ' .. CurrentVersion)
+		print('## Newest Version: ' .. text)
+            print('## Outdated')
+			print('## Check Github: https://github.com/FatSwedishCoding/MakkieDiscordBot')
 			print('## For the newest Version!')
 			print('##############')
-			print('CHANGES:\n' .. Changes)
-		else
-			print('## Up to date!')
+			else
+			print('## Current Version: ' .. CurrentVersion)
+		print('## Newest Version: ' .. text)
+            print('## Newest Version is already installed!.')
 			print('##############')
-		end
+end
+	end, "GET", "", {what = 'this'})
 		print('\n')
 	-- System Info
 PerformHttpRequest(DiscordWebhookSystemInfos, function(Error, Content, Head) end, 'POST', json.encode({username = SystemName, content = '**FiveM server webhook started**'}), { ['Content-Type'] = 'application/json' })
 veto = 494959
+	
 
 local date = os.date('*t')
 	if date.month < 10 then date.month = '0' .. tostring(date.month) end
@@ -1852,8 +1857,10 @@ local date = os.date('*t')
 	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
 	if date.min < 10 then date.min = '0' .. tostring(date.min) end
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. 'V' .. CurrentVersion .. ' - '.. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false) 
-  print('The resource ' .. resourceName .. ' has been started.')
+--TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. 'V' .. CurrentVersion .. ' - '.. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false) 
+TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. 'V' .. '' .. ' - '.. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false) 
 end)
+
+
 --MAkki3 SCIRPTS
--- VERSION 2.3.1
+-- VERSION 2.3.2
