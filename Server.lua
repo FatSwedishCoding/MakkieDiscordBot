@@ -1831,18 +1831,20 @@ end
 print('\n##############')
 print("Performing version check against: " .. VersionAPIRequest)
 		print('## ' .. GetCurrentResourceName())
-if text ~= CurrentVersion then
+if text == CurrentVersion then
         print('## Current Version: ' .. CurrentVersion)
 		print('## Newest Version: ' .. text)
             print('## Outdated')
 			print('## Check Github: https://github.com/FatSwedishCoding/MakkieDiscordBot')
 			print('## For the newest Version!')
 			print('##############')
-			else
-			print('## Current Version: ' .. CurrentVersion)
-		print('## Newest Version: ' .. text)
-            print('## Newest Version is already installed!.')
-			print('##############')
+			else			
+			 print('## Current Version: ' .. CurrentVersion)
+		     print('## Newest Version: ' .. text)
+             print('## Outdated')
+			 print('## Check Github: https://github.com/FatSwedishCoding/MakkieDiscordBot')
+			 print('## For the newest Version!')
+			 print('##############')
 end
 	end, "GET", "", {what = 'this'})
 		print('\n')
