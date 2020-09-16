@@ -11,8 +11,8 @@ IF U NEED HELP OR ANYTHING CONTACT US ON: https://discord.gg/amSvPhQ
 *Please dont remove this*
 Support is included,
 
+Discord Name: Makki3#0729
 MVH Makki3 In TheFatSwedishCoding.
-
 
 
 
