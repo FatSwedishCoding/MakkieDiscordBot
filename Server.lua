@@ -1816,7 +1816,7 @@ AddEventHandler('onResourceStart', function(resourceName)
 	
 	-- Version Checking down here, better don't touch this
 local onlinetest = DiscordWebhookonline
-CurrentVersion = '2.3.2'
+CurrentVersion = '2.3.3'
 _FirstCheckPerformed = false
 
 local VersionAPIRequest = "https://raw.githubusercontent.com/FatSwedishCoding/MakkieDiscordBot/master/version.txt"
@@ -1862,4 +1862,4 @@ end)
 
 
 --MAkki3 SCIRPTS
--- VERSION 2.3.2
+-- VERSION 2.3.3
