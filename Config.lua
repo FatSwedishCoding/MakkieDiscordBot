@@ -9,7 +9,6 @@ DiscordWebhookinut = ''
 DiscordWebhookKillinglogs = ''
 DiscordWebhookChat = ''
 DiscordWebhookpolicelogs = ''
--- ALTERNETIVE, FOR LOGS ON BENNY
 DiscordWebhookbennylogs = ''
 
 --RÖR EJ DÅ KOMMER SCRIPTET CRASHA. (DONT TOUCH IF YOU DO THE SCRIPT WILL CRASH)
