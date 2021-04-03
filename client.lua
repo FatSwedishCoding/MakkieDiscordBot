@@ -686,7 +686,7 @@ createPed = function(hash, coords, heading)
     return peds
 end
 
--- MADE BY MAKKIE
+-- MADE BY MAKKIE/Marcusf1993 in FSC
 -- VERSION 1.4 
 -- 2019-03-29 PROJECT DATE
 -- 2021-04-03 LAST UPDATE
