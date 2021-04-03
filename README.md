@@ -1,9 +1,18 @@
-# fsc_questline
-MADE BY Makki3 and Abbzon from FatSwedishCoding.
+# MakkieDiscordBot
+a Discord bot that monitor Fivem servers.
 
-A Quest giver with 4 quest atm.
-ur allow to use the script and modify it,
- but orginal makers need to be in the script, if not u break EULA and github terms of service.
+Got help by an other script when i made this, so some similaritis can accured.
 
-Buggreports on: https://discord.gg/kXJHq8T or i comments here on github.
+ALL YOU NEED TO DO IS GO TO CONFIG.CFG in the SCRIPT AND SET SERVER NAME,
+SET THE DISCORD HOOK TO YOUR DISCORD IN CFG.
+
+IF U NEED HELP OR ANYTHING CONTACT US ON: https://discord.gg/amSvPhQ
+
+*Please dont remove this*
+Support is included,
+
+Discord Name: Makki3#0729
+MVH Makki3 In TheFatSwedishCoding.
+
+
 

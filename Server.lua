@@ -11,7 +11,6 @@
 ESX = nil
 local sname = ''
 local veto = 0
-local noname = 0
 TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
 -- Error Check
 if DiscordWebhookSystemInfos == nil and DiscordWebhookonline == nil and DiscordWebhookbennylogs == nil and DiscordWebhookKillinglogs == nil and DiscordWebhookKillinglogs1 == nil and DiscordWebhookChat == nil and DiscordWebhookpolicelogs == nil then
@@ -86,9 +85,9 @@ else
 	end)
 end
 
--- logging 2 av pimping i mekko(Logs 2 of when pimping in LSCustoms)
-RegisterServerEvent('esx_lscustom:buyMod')
-AddEventHandler('esx_lscustom:buyMod', function(source, price)
+-- Loggning till UTAG AV POLISHELI(Loggs of when police takes out PoliceHelicopter.
+RegisterServerEvent('esx_policejob:helikostnad')
+AddEventHandler('esx_policejob:helikostnad', function()
 local date = os.date('*t')
 	
 	if date.month < 10 then date.month = '0' .. tostring(date.month) end
@@ -99,14 +98,65 @@ local date = os.date('*t')
 	
 	local _source = source
 
-  local sourceXPlayer = ESX.GetPlayerFromId(_source)	
+  local sourceXPlayer = ESX.GetPlayerFromId(_source)
+  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
 
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+if veto ~= 494959 then
+return
+end	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLICEHELI' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut Heli ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'policelog', SystemName, 'POLICEHELI' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut Heli ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+
+end)
+
+-- logging 2 av pimping i mekko(Logs 2 of when pimping in LSCustoms)
+RegisterServerEvent('esx_lscustom:buyMod')
+AddEventHandler('esx_lscustom:buyMod', function(price)
+local date = os.date('*t')
+	
+	if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	
+	local _source = source
+
+  local sourceXPlayer = ESX.GetPlayerFromId(_source)
+  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MEKKOPIMP' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-TriggerEvent('DiscordBot:ToDiscord', 'benny', SystemName, 'MEKKOPIMP' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MEKKOPIMP' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"]  .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'benny', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade för: ' .. price .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
 end)
 
@@ -124,11 +174,26 @@ local date = os.date('*t')
 	local _source = source
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
+  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MEKKOPIMP' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' pimpade' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MEKKOPIMP' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' pimpade' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MEKKOPIMP' .. ' ' .. firstname .. ' ' .. lastname .. ' pimpade' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
 end)
 
@@ -147,10 +212,24 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade admin Meny Quick' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade admin Meny Quick' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
 end)
 
@@ -170,17 +249,67 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   local xTarget = ESX.GetPlayerFromId(playerId)
+  local identifier = GetPlayerIdentifiers(source)[1]
   amount        = ESX.Math.Round(amount)
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
 if amount < 50000 then
 return
 end
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' Skickade Faktura till ' .. xTarget.name .. ' på ' .. amount .. 'kr'.. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' Skickade Faktura till ' .. xTarget.name .. ' på ' .. amount .. 'kr'.. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	
 	end)
+	
+	RegisterServerEvent('MakkieDiscordBot:adminfreeze')
+AddEventHandler('MakkieDiscordBot:adminfreeze', function(source,targetid)
+    local _source = source
+
+local date = os.date('*t')
+	
+	if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+
+  local sourceXPlayer = ESX.GetPlayerFromId(_source)
+  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	if veto ~= 494959 then
+return
+end		
+		TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' Försöker frysa ' .. targetid .. ' med KC_ADMINMENY' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	
+        return
+end)
+	
 -- admin tp meny test ALL
 RegisterServerEvent('es_admin:all')
 AddEventHandler('es_admin:all', function(type)
@@ -196,11 +325,25 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade admin Meny ALL' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)		
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade admin Meny ALL' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	
 end)
 
 -- kolla om nån öppnar jail meny(Logs if somone open Jail Meny)
@@ -218,18 +361,32 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
 	if sourceXPlayer.job == 'police' then
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'Polisjail' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'Polisjail' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'Polisjail' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'Polisjail' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 	return
 	end
 	
 	
-TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'AbuseWarning1' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade polismeny ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning1' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade polismeny ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'AbuseWarning1' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning1' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 	OpenJailMenu()
 end)
@@ -248,18 +405,32 @@ local date = os.date('*t')
 	local _source = source
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
+  
+	local identifier = GetPlayerIdentifiers(source)[1]
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
 	if sourceXPlayer.job.name == 'police' then
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'Polisjail' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'Polisjail' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'Polisjail' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'Polisjail' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 	return
 	end
 	
-TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'AbuseWarning' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade polismeny ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' öppnade polismeny ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'AbuseWarning' .. ' ' .. firstname .. ' ' .. lastname .. ' öppnade polismeny ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
 end)
 
@@ -279,11 +450,25 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BANKRÅN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' rånade banken på ' .. money  .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BANKRÅN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' rånade banken på ' .. money  .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BANKRÅN' .. ' ' .. firstname .. ' ' .. lastname .. ' rånade banken på ' .. money  .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BANKRÅN' .. ' ' .. firstname .. ' ' .. lastname .. ' rånade banken på ' .. money  .. 'kr' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
 
 end)
 
@@ -299,90 +484,6 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
 	
 	local _source = source
-    local sourceXPlayer = ESX.GetPlayerFromId(_source)
-	
-	if veto ~= 494959 then
-return
-end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'SJUKVÅRDENULLA' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'har använt ulla.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'SJUKVÅRDENULLA' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'har använt ulla.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-
-end)
-
--- KRIMINELLA SAKER
-
--- KÖPT PÅ BLACKMARKET (logs if somone buy in blackmarket)
-RegisterServerEvent("esx_PawnShop:BuyItem")
-AddEventHandler("esx_PawnShop:BuyItem", function(amountToBuy,totalBuyPrice,itemName)
-local date = os.date('*t')
-if date.month < 10 then date.month = '0' .. tostring(date.month) end
-	if date.day < 10 then date.day = '0' .. tostring(date.day) end
-	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
-	if date.min < 10 then date.min = '0' .. tostring(date.min) end
-	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-	
-	local _source = source
-    local sourceXPlayer = ESX.GetPlayerFromId(_source)
-	if veto ~= 494959 then
-return
-end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BLACKMARKET' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'har köpt x' .. amountToBuy .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BLACKMARKET' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'har köpt x' .. amountToBuy .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-
-end)
--- SÄLJA PÅ BLACKMARKET (Logs if somone sell item on blackmarket)
-RegisterServerEvent("esx_PawnShop:SellItem")
-AddEventHandler("esx_PawnShop:SellItem", function(amountToSell,totalSellPrice,itemName)
-local date = os.date('*t')
-if date.month < 10 then date.month = '0' .. tostring(date.month) end
-	if date.day < 10 then date.day = '0' .. tostring(date.day) end
-	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
-	if date.min < 10 then date.min = '0' .. tostring(date.min) end
-	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-	
-	local _source = source
-	local _source = source
-    local sourceXPlayer = ESX.GetPlayerFromId(_source)  
-
-	if veto ~= 494959 then
-return
-end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BLACKMARKET' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'har sålt x' .. amountToSell .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BLACKMARKET' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'har sålt x' .. amountToSell .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-
-end)
-
---kollar om nån startar juvel rånade(logs if somone robs juewelry)
-RegisterServerEvent('esx_vangelico_robbery:rob')
-AddEventHandler('esx_vangelico_robbery:rob', function()
-local date = os.date('*t')
-if date.month < 10 then date.month = '0' .. tostring(date.month) end
-	if date.day < 10 then date.day = '0' .. tostring(date.day) end
-	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
-	if date.min < 10 then date.min = '0' .. tostring(date.min) end
-	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-	
-	local _source = source
-    local sourceXPlayer = ESX.GetPlayerFromId(_source)
-	
-	if veto ~= 494959 then
-return
-end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'JUVELRÅN' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'Påbörjade ett JUVELRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'JUVELRÅN' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'Påbörjade ett JUVELRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-end)
--- BANKRÅN (logs Bankrobberies)
-RegisterServerEvent('DiscordBot-makki3:bankranlogg')
-AddEventHandler('DiscordBot-makki3:bankranlogg', function()
-local date = os.date('*t')
-if date.month < 10 then date.month = '0' .. tostring(date.month) end
-	if date.day < 10 then date.day = '0' .. tostring(date.day) end
-	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
-	if date.min < 10 then date.min = '0' .. tostring(date.min) end
-	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-	
-	local _source = source
-	
     local sourceXPlayer = ESX.GetPlayerFromId(_source)  
 	local identifier = GetPlayerIdentifiers(source)[1]
 	
@@ -401,8 +502,149 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BANKRÅN' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'Påbörjade ett BANKRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BANKRÅN' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'Påbörjade ett BANKRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'SJUKVÅRDENULLA' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har använt ulla.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'SJUKVÅRDENULLA' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har använt ulla.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+
+end)
+
+-- KRIMINELLA SAKER
+
+-- KÖPT PÅ BLACKMARKET (logs if somone buy in blackmarket)
+RegisterServerEvent("esx_PawnShop:BuyItem")
+AddEventHandler("esx_PawnShop:BuyItem", function(amountToBuy,totalBuyPrice,itemName)
+local date = os.date('*t')
+if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	
+	local _source = source
+	local _source = source
+    local sourceXPlayer = ESX.GetPlayerFromId(_source)  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	if veto ~= 494959 then
+return
+end
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har köpt x' .. amountToBuy .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har köpt x' .. amountToBuy .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+
+end)
+-- SÄLJA PÅ BLACKMARKET (Logs if somone sell item on blackmarket)
+RegisterServerEvent("esx_PawnShop:SellItem")
+AddEventHandler("esx_PawnShop:SellItem", function(amountToSell,totalSellPrice,itemName)
+local date = os.date('*t')
+if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	
+	local _source = source
+	local _source = source
+    local sourceXPlayer = ESX.GetPlayerFromId(_source)  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	if veto ~= 494959 then
+return
+end
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har sålt x' .. amountToSell .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BLACKMARKET' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'har sålt x' .. amountToSell .. ' ' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+
+end)
+
+--kollar om nån startar juvel rånade(logs if somone robs juewelry)
+RegisterServerEvent('esx_vangelico_robbery:rob')
+AddEventHandler('esx_vangelico_robbery:rob', function()
+local date = os.date('*t')
+if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	
+	local _source = source
+	local _source = source
+    local sourceXPlayer = ESX.GetPlayerFromId(_source)  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+	local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	if veto ~= 494959 then
+return
+end
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett JUVELRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'JUVELRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett JUVELRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+end)
+-- BANKRÅN (logs Bankrobberies)
+RegisterServerEvent('DiscordBot-makki3:bankranlogg')
+AddEventHandler('DiscordBot-makki3:bankranlogg', function()
+local date = os.date('*t')
+if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	
+	local _source = source
+	local _source = source
+    local sourceXPlayer = ESX.GetPlayerFromId(_source)  
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	if veto ~= 494959 then
+return
+end
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BANKRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett BANKRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BANKRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Påbörjade ett BANKRÅN ' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 end)
 
 -- TVÄTTA PENGAR(logs when somone washing black money)
@@ -417,13 +659,27 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
 	
 	local _source = source
+	local _source = source
     local sourceXPlayer = ESX.GetPlayerFromId(_source)  
+	local identifier = GetPlayerIdentifiers(source)[1]
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PENGATVÄTT' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'Tvättade ' .. amount .. 'kr i torktummlaren.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PENGATVÄTT' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'Tvättade ' .. amount .. 'kr i torktummlaren.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PENGATVÄTT' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Tvättade ' .. amount .. 'kr i torktummlaren.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PENGATVÄTT' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'Tvättade ' .. amount .. 'kr i torktummlaren.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
 
@@ -443,17 +699,29 @@ if date.month < 10 then date.month = '0' .. tostring(date.month) end
     local sourceXPlayer = ESX.GetPlayerFromId(_source)  
 	local identifier = GetPlayerIdentifiers(source)[1]
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'TANSPORTRÅN' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'påbörjade transport rån.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'TANSPORTRÅN' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'påbörjade transport rån.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'TANSPORTRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'påbörjade transport rån.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'TANSPORTRÅN' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'påbörjade transport rån.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
 
--- BILSTÖLD(logs carthief för FSC)
-RegisterServerEvent('fsc_bilstold')
-AddEventHandler('fsc_bilstold', function()
+-- BILSTÖLD(logs carthief)
+RegisterServerEvent('loffe_carthief:loggen')
+AddEventHandler('loffe_carthief:loggen', function()
 local date = os.date('*t')
 	
 	if date.month < 10 then date.month = '0' .. tostring(date.month) end
@@ -463,19 +731,31 @@ local date = os.date('*t')
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
 	
 	local _source = source
-    local sourceXPlayer = ESX.GetPlayerFromId(_source)
+    local sourceXPlayer = ESX.GetPlayerFromId(_source)  
+	local identifier = GetPlayerIdentifiers(source)[1]
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BILSTÖLD' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'påbörjade bilstöld. ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BILSTÖLD' .. ' ' .. sourceXPlayer["character"]["firstname"] ..' ' .. sourceXPlayer["character"]["lastname"] .. ' ' .. 'påbörjade bilstöld. ' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BILSTÖLD' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'påbörjade bilstöld.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BILSTÖLD' .. ' ' .. firstname ..' ' .. lastname .. ' ' .. 'påbörjade bilstöld.' .. '@here' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
-
-
--- SWISH FOR ESX PHONE
-AddEventHandler('esx_phone:swish', function(summa, tnummer)
+-- ifall någon hittar en Stor röd Diamant.(Logs if somone get Red Diamond in gold rush river)
+RegisterServerEvent('abbeguldvask:hittadia')
+AddEventHandler('abbeguldvask:hittadia', function(source,item)
 local date = os.date('*t')
 	if date.month < 10 then date.month = '0' .. tostring(date.month) end
 	if date.day < 10 then date.day = '0' .. tostring(date.day) end
@@ -484,17 +764,31 @@ local date = os.date('*t')
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	
+	local identifier = GetPlayerIdentifiers(source)[1]
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	item = 'Stor Rosa Diamant'
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'SWISH' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' swishade ' .. summa .. 'kr till nr: ' .. tnummer .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'SWISH' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' swishade ' .. summa .. 'kr till nr: ' .. tnummer .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    			
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'GULDVASK' .. ' ' .. '@here' .. firstname .. ' ' .. lastname .. ' hittade en ' .. item .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    			
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'GULDVASK' .. ' ' .. '@here '.. firstname .. ' ' .. lastname .. ' hittade en ' .. item .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
+	
 end)
-
-
 -- Lägga SWISH/IN/UT/KASTAR/GER ITEMS/WEAPON/PENGAR (logs swish transfers)
-RegisterServerEvent('esx_payswish')
-AddEventHandler('esx_payswish', function(tnummer,summa)
+RegisterServerEvent('MakkieDiscordBot:phone')
+AddEventHandler('MakkieDiscordBot:phone', function(source, summa, tnummer)
 local date = os.date('*t')
 	if date.month < 10 then date.month = '0' .. tostring(date.month) end
 	if date.day < 10 then date.day = '0' .. tostring(date.day) end
@@ -503,14 +797,86 @@ local date = os.date('*t')
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
 	
-	
+	local identifier = GetPlayerIdentifiers(source)[1]
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'SWISH' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' swishade ' .. summa .. 'kr till nr: ' .. tnummer .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'SWISH' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' swishade ' .. summa .. 'kr till nr: ' .. tnummer .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    			
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'SWISH' .. ' ' .. firstname .. ' ' .. lastname .. ' swishade ' .. summa .. 'kr till nr: ' .. tnummer .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'SWISH' .. ' ' .. firstname .. ' ' .. lastname .. ' swishade ' .. summa .. 'kr till nr: ' .. tnummer .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    			
+end)
+-- Lägga SWISH/IN/UT/KASTAR/GER ITEMS/WEAPON/PENGAR (logs swish transfers)
+RegisterServerEvent('gc_phone:swish')
+AddEventHandler('esx_phone:swish', function(summa, tname)
+local date = os.date('*t')
+	if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	local sourceXPlayer = ESX.GetPlayerFromId(source)
+	
+	local identifier = GetPlayerIdentifiers(source)[1]
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	if veto ~= 494959 then
+return
+end
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'BANNKTRANSFER' .. ' ' .. firstname .. ' ' .. lastname .. ' swishade ' .. summa .. 'kr till nr: ' .. tname .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'BANNKTRANSFER' .. ' ' .. firstname .. ' ' .. lastname .. ' swishade ' .. summa .. 'kr till nr: ' .. tname .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    			
 end)
 
+-- MOTELL GREJOR(logs abuse when people sell motel room)
+RegisterServerEvent('james_motels:sellmotels1')
+AddEventHandler('james_motels:sellmotels1', function(source)
+local date = os.date('*t')
+	if date.month < 10 then date.month = '0' .. tostring(date.month) end
+	if date.day < 10 then date.day = '0' .. tostring(date.day) end
+	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
+	if date.min < 10 then date.min = '0' .. tostring(date.min) end
+	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
+	local sourceXPlayer = ESX.GetPlayerFromId(source)
+	
+	local identifier = GetPlayerIdentifiers(source)[1]
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	if veto ~= 494959 then
+return
+end
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELL' .. ' ' .. '@here' .. ' ' .. firstname .. ' ' .. lastname .. ' sålde sitt motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
+    TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELL' .. ' ' .. '@here' .. ' ' .. firstname .. ' ' .. lastname .. ' sålde sitt motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
+end)
 -- loggar om utag items(logs if somone withdraw from motel storage)
 RegisterServerEvent('james_motels:takeItemFromStorage1')
 AddEventHandler('james_motels:takeItemFromStorage1', function(itemName, Itemcount, Itemtype)
@@ -524,31 +890,45 @@ local date = os.date('*t')
 	
 	local sourceXPlayer = ESX.GetPlayerFromId(source)
   local xItem = sourceXPlayer.getInventoryItem(itemName)
-  
+	
+	local identifier = GetPlayerIdentifiers(source)[1]
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
 	if Itemtype == 'weapon' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
 	
 	return
 	end
 	if Itemtype == 'item_money' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
 	
 	return
 	end
 	if Itemtype == 'black_money' then
 	xxItem = 'Svarta pengar'
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. xxItem .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. xxItem .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
 	
 	return
 	end
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    		
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. Itemcount .. ' ' .. itemName .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. xItem.name .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. Itemcount .. ' ' .. xItem.name .. ' ifrån ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
 	
 end)
 -- MOTELS
@@ -589,24 +969,25 @@ local date = os.date('*t')
 return
 end
 		if Itemtype == 'weapon' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
 	return
 	end
 	if Itemtype == 'item_money' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. xItem.name .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. xItem.name .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
 	
 	return
 	end
 	if Itemtype == 'black_money' then
 	xxItem = 'Svarta pengar'
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. xxItem .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. xxItem .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
 	return
-	end	
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. Itemcount .. ' ' .. itemName .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
+	end
+	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. xItem.name .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'MOTELLIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. Itemcount .. ' ' .. xItem.name .. ' i ett motell rum.' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
 	
 end)
 
@@ -625,11 +1006,26 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'FÖRETAGIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in ' .. amount ..'' ..'kr till ' .. society .. ' kassan'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'FÖRETAGIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in ' .. amount ..'' ..'kr till ' .. society .. 'kassan'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'FÖRETAGIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in ' .. amount ..'' ..'kr till ' .. society .. ' kassan'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'FÖRETAGIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in ' .. amount ..'' ..'kr till ' .. society .. 'kassan'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
 
@@ -649,11 +1045,26 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'FÖRETAGUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut ' .. amount ..'' ..'kr från ' .. society .. ' kassan' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'FÖRETAGUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut ' .. amount ..'' ..'kr från ' .. society .. 'kassan'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'FÖRETAGUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut ' .. amount ..'' ..'kr från ' .. society .. ' kassan' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	    
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'FÖRETAGUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut ' .. amount ..'' ..'kr från ' .. society .. 'kassan'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
 
@@ -672,6 +1083,7 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
 	
 	TriggerEvent('esx_addoninventory:getSharedInventory', 'society_mechanic', function(inventory)
 		local item = inventory.getItem(itemName)
@@ -690,11 +1102,23 @@ local date = os.date('*t')
 		end
 	end)
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'MEKKOUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. count .. ' ' .. itemName.. ' ' ..'från MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
-    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName,'MEKKOUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. count .. ' ' .. itemName.. ' ' ..'från MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'MEKKOUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. count .. ' ' .. itemName.. ' ' ..'från MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName,'MEKKOUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. count .. ' ' .. itemName.. ' ' ..'från MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
 
@@ -713,15 +1137,29 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
 	if count > 100 then
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'@here ' .. 'MEKKOIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. count .. ' ' .. itemName.. ' ' ..'i MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'@here ' .. 'MEKKOIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. count .. ' ' .. itemName.. ' ' ..'i MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
 	end
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'MEKKOIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. count .. ' ' .. itemName.. ' ' ..'i MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName,'MEKKOIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' la in x' .. count .. ' ' .. itemName.. ' ' ..'i MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'MEKKOIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. count .. ' ' .. itemName.. ' ' ..'i MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName,'MEKKOIN' .. ' ' .. firstname .. ' ' .. lastname .. ' la in x' .. count .. ' ' .. itemName.. ' ' ..'i MEKKO Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 end)
 
 		-- Loggar Om du tar ut items(ej vapen) ur stashen polisen.(logs when police withdraw items from police.
@@ -739,11 +1177,25 @@ end)
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
 	
-		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'POLISUT' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' tog ut x' .. count .. ' ' .. itemName.. ' ' ..'från Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName,'POLISUT' .. ' ' .. firstname .. ' ' .. lastname .. ' tog ut x' .. count .. ' ' .. itemName.. ' ' ..'från Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 		end)
 		
 		
@@ -762,11 +1214,25 @@ end
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
+	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLISIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' La in x' .. count .. ' ' .. itemName.. ' ' ..'in i Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-		TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLISIN' .. ' ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' La in x' .. count .. ' ' .. itemName.. ' ' ..'in i Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLISIN' .. ' ' .. firstname .. ' ' .. lastname .. ' La in x' .. count .. ' ' .. itemName.. ' ' ..'in i Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+		TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLISIN' .. ' ' .. firstname .. ' ' .. lastname .. ' La in x' .. count .. ' ' .. itemName.. ' ' ..'in i Polisen Kurragömma'  .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 		
 		end)	
 				-- ge items till andra (logs when somone hand over items to somone else)
@@ -785,12 +1251,25 @@ local date = os.date('*t')
 
 	local sourceXPlayer = ESX.GetPlayerFromId(_source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
+	local identifier = GetPlayerIdentifiers(source)[1]
 	local identifier1 = GetPlayerIdentifiers(target)[1]
 	local xItem = sourceXPlayer.getInventoryItem(itemName)
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
 	local result2 = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
       ['@identifier'] = identifier1
     })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	
 	local user2      = result2[1]
     local firstname2     = user2['firstname']
@@ -804,110 +1283,28 @@ local date = os.date('*t')
 return
 end
 	if type == 'item_weapon' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERGIVE ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)				
-	TriggerEvent('DiscordBot:ToDiscord', 'INUT', SystemName, 'PLAYERGIVE ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)				
+	TriggerEvent('DiscordBot:ToDiscord', 'INUT', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	return
 	end
 	if type == 'item_money' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERGIVE ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)				
-	TriggerEvent('DiscordBot:ToDiscord', 'INUT', SystemName, 'PLAYERGIVE ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)				
+	TriggerEvent('DiscordBot:ToDiscord', 'INUT', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	return
 	end
 	if type == 'item_account' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERGIVE ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)				
-	TriggerEvent('DiscordBot:ToDiscord', 'INUT', SystemName, 'PLAYERGIVE ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)				
+	TriggerEvent('DiscordBot:ToDiscord', 'INUT', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 	return
 	end
 	if itemCount > xItem.count then
 	return
 	end
 	
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERGIVE ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)				
-	TriggerEvent('DiscordBot:ToDiscord', 'INUT', SystemName, 'PLAYERGIVE ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)				
+	TriggerEvent('DiscordBot:ToDiscord', 'INUT', SystemName, 'PLAYERGIVE ' .. firstname .. ' ' .. lastname .. ' gav ' .. firstname2 .. ' ' .. lastname2 .. ' x' .. itemCount .. ' ' .. '' .. itemName .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 	
 end)	
--- nya inventory system
-RegisterServerEvent("rdrp_inventory:dropItem")
-AddEventHandler("rdrp_inventory:dropItem", function(data, remove)
-    local date = os.date('*t')
-	
-	if date.month < 10 then date.month = '0' .. tostring(date.month) end
-	if date.day < 10 then date.day = '0' .. tostring(date.day) end
-	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
-	if date.min < 10 then date.min = '0' .. tostring(date.min) end
-	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-	
-	
-	local src = source
-
-    local player = ESX.GetPlayerFromId(src)
-
-    if player or not remove then
-        local itemData = ESX.Items[data["name"]]
-
-        if itemData then
-            if not data["label"] then
-                data["label"] = itemData["label"]
-            end
-
-            if not data["weight"] then
-                data["weight"] = itemData["weight"]
-            end
-        end
-
-        if remove then
-		end
-
-        if remove then
-
-    if veto ~= 494959 then
-return
-end
-		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PLAYERDROP ' .. player["character"]["firstname"] .. ' ' .. player["character"]["lastname"] .. ' kastade x' .. data["count"] .. ' ' .. data["name"] .. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-        TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERDROP ' .. player["character"]["firstname"] .. ' ' .. player["character"]["lastname"] .. ' kastade x' .. data["count"] .. ' ' .. data["name"] .. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-        end
-    end
-end)
--- nya inventory systemet plocka upp items
-RegisterServerEvent("rdrp_inventory:pickupItem")
-AddEventHandler("rdrp_inventory:pickupItem", function(data)
- local date = os.date('*t')
-	
-	if date.month < 10 then date.month = '0' .. tostring(date.month) end
-	if date.day < 10 then date.day = '0' .. tostring(date.day) end
-	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
-	if date.min < 10 then date.min = '0' .. tostring(date.min) end
-	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-
-    local src = source
-    local player = ESX.GetPlayerFromId(src)
-
-    if player then
-        if data["uniqueId"] then
-            local cachedCount = data["count"]
-
-            if player.getInventoryWeight() + (data["count"] * data["weight"]) < player.maxWeight then
-                if data["count"] < cachedCount then
-                    cachedVicinity[data["uniqueId"]]["count"] = cachedVicinity[data["uniqueId"]]["count"] - data["count"]
-                else
-                   -- TriggerClientEvent("rdrp_inventory:removeObject", -1, data["uniqueId"])
-                    
-                    data["uniqueId"] = nil; data["coords"] = nil; data["uniqueId"] = nil
-                end  
-
-if veto ~= 494959 then
-return
-end
-				TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PLAYERPICKUP ' .. player["character"]["firstname"] .. ' ' .. player["character"]["lastname"] .. ' plockade upp x' .. data["count"] .. ' ' .. data["name"] .. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-                TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERPICKUP ' .. player["character"]["firstname"] .. ' ' .. player["character"]["lastname"] .. ' plockade upp x' .. data["count"] .. ' ' .. data["name"] .. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)      
-            else
-            end 
-        else
-        end
-    end
-end)
-
-
 
 		--DROPA ITEMS (logs when someone drop an item)
 		RegisterServerEvent('esx:removeInventoryItem')
@@ -925,56 +1322,50 @@ local date = os.date('*t')
 
   local sourceXPlayer = ESX.GetPlayerFromId(_source)
   
+	local identifier = GetPlayerIdentifiers(source)[1]
     local weaponLabel = ESX.GetWeaponLabel(itemName)
 	local xItem = sourceXPlayer.getInventoryItem(itemName)
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
 	if type == 'item_weapon' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '@here ' .. 'PLAYERDROP ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, '@here ' .. 'PLAYERDROP ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '@here ' .. 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, '@here ' .. 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 	
 	return
 	end
 	
 	if type == 'item_money' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '@here ' .. 'PLAYERDROP ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, '@here ' .. 'PLAYERDROP ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '@here ' .. 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, '@here ' .. 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 	return
 	end
 	if type == 'item_account' then
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '@here ' .. 'PLAYERDROP ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, '@here ' .. 'PLAYERDROP ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '@here ' .. 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, '@here ' .. 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 	return
 	end
 	if itemCount > xItem.count then
 	return
-	end	
-	TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '@here ' .. 'PLAYERDROP ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, '@here ' .. 'PLAYERDROP ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+	end
+	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERDROP ' .. firstname .. ' ' .. lastname .. ' kastade x' .. itemCount .. ' ' .. itemName.. '' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 		
 		end)
-	
-	-- loggar om man tar items från någon
-RegisterServerEvent('rdrp_interactionmenu:steal')
-AddEventHandler('rdrp_interactionmenu:steal', function(itemName, itemCount)
-local date = os.date('*t')
-	if date.month < 10 then date.month = '0' .. tostring(date.month) end
-	if date.day < 10 then date.day = '0' .. tostring(date.day) end
-	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
-	if date.min < 10 then date.min = '0' .. tostring(date.min) end
-	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-	print('olle2')
-	local sourceXPlayer = ESX.GetPlayerFromId(source)
-  local xItem = sourceXPlayer.getInventoryItem(itemName)
-  
-	if veto ~= 494959 then
-return
-end
-        TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLICESTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' Beslagtog x' .. itemCount .. ' ' .. itemName .. ' av ' .. 'någon' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-        TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLICESTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' Beslagtog x' .. itemCount .. ' ' .. itemName .. ' av ' .. 'någon' .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-end)
 	
 -- sno items (logs if somone steal items from somone)
 RegisterServerEvent('esx_policejob:confiscatePlayerItem')
@@ -990,12 +1381,26 @@ local date = os.date('*t')
 	local _source = source
     local sourceXPlayer = ESX.GetPlayerFromId(_source)
 	local targetXPlayer = ESX.GetPlayerFromId(target)
+	local identifier = GetPlayerIdentifiers(source)[1]
 	local identifier1 = GetPlayerIdentifiers(target)[1]
 	
+
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
 	local result2 = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
       ['@identifier'] = identifier1
     })
 
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
+	
 	local user2      = result2[1]
     local firstname2     = user2['firstname']
     local lastname2      = user2['lastname']
@@ -1009,23 +1414,23 @@ return
 end
 if type == 'item_weapon' then
     	if sourceXPlayer["job"]["name"] == "police" then
-		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLICESTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' Beslagtog x' .. amount .. ' ' .. itemName .. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-        TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLICESTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' Beslagtog x' .. amount .. ' ' .. itemName .. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLICESTEAL ' .. firstname .. ' ' .. lastname .. ' Beslagtog x' .. amount .. ' ' .. itemName .. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+        TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLICESTEAL ' .. firstname .. ' ' .. lastname .. ' Beslagtog x' .. amount .. ' ' .. itemName .. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
     	
 		return
     	end
 	
-	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PLAYERSTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' stal x' .. amount .. ' ' .. itemName.. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERSTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' stal x' .. amount .. ' ' .. itemName.. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+	TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PLAYERSTEAL ' .. firstname .. ' ' .. lastname .. ' stal x' .. amount .. ' ' .. itemName.. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERSTEAL ' .. firstname .. ' ' .. lastname .. ' stal x' .. amount .. ' ' .. itemName.. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end
 if sourceXPlayer["job"]["name"] == "police" then
-		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLICESTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' Beslagtog x' .. amount .. ' ' .. itemName .. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-        TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLICESTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' Beslagtog x' .. amount .. ' ' .. itemName .. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)   	
+		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'POLICESTEAL ' .. firstname .. ' ' .. lastname .. ' Beslagtog x' .. amount .. ' ' .. itemName .. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+        TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'POLICESTEAL ' .. firstname .. ' ' .. lastname .. ' Beslagtog x' .. amount .. ' ' .. itemName .. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)   	
 		return
     	end
-		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PLAYERSTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' stal x' .. amount .. ' ' .. itemName.. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
-    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERSTEAL ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' stal x' .. amount .. ' ' .. itemName.. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
+		TriggerEvent('DiscordBot:ToDiscord', 'inut', SystemName, 'PLAYERSTEAL ' .. firstname .. ' ' .. lastname .. ' stal x' .. amount .. ' ' .. itemName.. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
+    TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, 'PLAYERSTEAL ' .. firstname .. ' ' .. lastname .. ' stal x' .. amount .. ' ' .. itemName.. ' av ' .. firstname2 .. ' ' .. lastname2 .. '\n' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)	
 
 end)
 
@@ -1048,8 +1453,7 @@ local date = os.date('*t')
 	if veto ~= 494959 then
 return
 end
-
-
+	
 	TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName, '```css\n' .. 'PLAYERCONNECT ' .. GetPlayerName(source) .. ' connecting\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
     TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '```css\n' .. 'PLAYERCONNECT ' .. GetPlayerName(source) .. ' connecting\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
@@ -1086,7 +1490,6 @@ return
 end
 	TriggerEvent('DiscordBot:ToDiscord', 'statusen', SystemName, 'Server: ' .. sname .. ' is running DiscordBot-makki3 ' .. ' Version: ' .. CurrentVersion .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 	end)
-
 RegisterServerEvent('DiscordBot:offline')
 AddEventHandler('DiscordBot:offline', function()
 local date = os.date('*t')
@@ -1101,17 +1504,6 @@ local date = os.date('*t')
     --TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName, '```fix\n' .. 'PLAYERDISCONNECT ' .. GetPlayerName(source) .. ' left (' .. Reason .. ')\n```' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, 'system', source, false, false)
 
 end)
-
-RegisterServerEvent('DiscordBot:nova')
-AddEventHandler('DiscordBot:nova', function()
-	if noname == 1 then
-		noname = 0
-		TriggerClientEvent('esx:showNotification', source, 'av')
-	elseif noname == 0 then
-		noname = 1
-		TriggerClientEvent('esx:showNotification', source, 'på')
-	end
-end)
 -- döds Log (logs death events)
 RegisterServerEvent('DiscordBot:PlayerDied')
 AddEventHandler('DiscordBot:PlayerDied', function(Message, Weapon)
@@ -1122,7 +1514,6 @@ AddEventHandler('DiscordBot:PlayerDied', function(Message, Weapon)
 	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
 	if date.min < 10 then date.min = '0' .. tostring(date.min) end
 	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-	
 	
 	if Weapon then
 		Message = Message .. ' [' .. Weapon .. ']'
@@ -1152,35 +1543,24 @@ local date = os.date('*t')
   
 	local identifier = GetPlayerIdentifiers(Source)[1]
 	
+	local result = MySQL.Sync.fetchAll("SELECT * FROM users WHERE identifier = @identifier", {
+      ['@identifier'] = identifier
+    })
+
+    local user      = result[1]
+    local firstname     = user['firstname']
+    local lastname      = user['lastname']
+
+    local data = {
+      firstname   = firstname,
+      lastname    = lastname
+    }
 	if veto ~= 494959 then
 return
 end
-TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName , 'CHAT ' .. sourceXPlayer["character"]["firstname"] .. ' '  .. sourceXPlayer["character"]["lastname"] .. ' använde Command eller skriv:' .. ' ' .. Message .. ' ' .. '\n' .. '' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, '' , Source, false, false)
-TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName , 'CHAT ' .. sourceXPlayer["character"]["firstname"] .. ' ' .. sourceXPlayer["character"]["lastname"] .. ' använde Command eller skriv:' .. ' ' .. Message .. ' ' .. '\n' .. '' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, '' , Source, false, false)
+TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName , 'CHAT ' .. firstname .. ' ' .. lastname .. ' ' .. 'använde Command eller skriv:' .. ' ' .. Message .. ' ' .. '\n' .. '' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, '' , Source, false, false)
+TriggerEvent('DiscordBot:ToDiscord', 'system', SystemName , 'CHAT ' .. firstname .. ' ' .. lastname .. ' ' .. 'använde Command eller skriv:' .. ' ' .. Message .. ' ' .. '\n' .. '' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, '' , Source, false, false)
 
-end)
-
-RegisterServerEvent('DiscordBot:mep')
-AddEventHandler('DiscordBot:mep', function(Source, firstname22, lastname22, Message)
-local date = os.date('*t')
-
-
-	if date.month < 10 then date.month = '0' .. tostring(date.month) end
-	if date.day < 10 then date.day = '0' .. tostring(date.day) end
-	if date.hour < 10 then date.hour = '0' .. tostring(date.hour) end
-	if date.min < 10 then date.min = '0' .. tostring(date.min) end
-	if date.sec < 10 then date.sec = '0' .. tostring(date.sec) end
-	
-local _source = Source
-
-if veto ~= 494959 then
-return
-end
-if noname == 1 then
-	return
-	end
-
-TriggerEvent('DiscordBot:ToDiscord', 'chat', SystemName , 'CHAT ' .. firstname22 .. ' '  .. lastname22 .. ' använde Command eller skriv:' .. ' ' .. '/me '.. Message .. ' ' .. '\n' .. '' .. date.day .. '.' .. date.month .. '.' .. date.year .. ' - ' .. date.hour .. ':' .. date.min, '' , Source, false, false)
 end)
 
 --Event to actually send Messages to Discord
@@ -1502,7 +1882,7 @@ AddEventHandler('onResourceStart', function(resourceName)
 	
 	-- Version Checking down here, better don't touch this
 local onlinetest = DiscordWebhookonline
-CurrentVersion = '2.4'
+CurrentVersion = '2.3.2'
 _FirstCheckPerformed = false
 
 local VersionAPIRequest = "https://raw.githubusercontent.com/FatSwedishCoding/MakkieDiscordBot/master/version.txt"
@@ -1548,4 +1928,4 @@ end)
 
 
 --MAkki3 SCIRPTS
--- VERSION 2.4
+-- VERSION 2.3.2

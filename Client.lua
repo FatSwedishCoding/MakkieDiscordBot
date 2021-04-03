@@ -3,31 +3,6 @@ local stuff = {
     inMission = false
 	}
 
-RegisterNetEvent('DiscordBot-makki3:tk')
-AddEventHandler('DiscordBot-makki3:tk', function()
-
- local cutsceneOver = GetGameTimer() + (1000 * 4)
-    local cam = CreateCam("DEFAULT_SCRIPTED_Camera", 1)
-	
-	TriggerEvent('esx:showNotification', 'Hej jag heter Touka Kirishima trevligt att träffas.')
-	
-    SetCamCoord(cam, vector3(-1637.74, 198.55, 64.65))
-    RenderScriptCams(1, 0, 0, 1, 1)
-
-    -- TriggerServerEvent("InteractSound_SV:PlayOnSource", Config.Soundfile, 1.0)
-
-    while cutsceneOver >= GetGameTimer() do
-        for i = 0, 31 do
-            DisableAllControlActions(i)
-        end
-        PointCamAtEntity(cam, ped, 0.0, 0.0, 0.0, true)
-        SetCamFov(cam, GetCamFov(cam)-0.05)
-        Wait(5)
-    end
-    RenderScriptCams(false, false, 0, true, false)
-    DestroyCam(cam)
-end)
-
 Citizen.CreateThread(function()
 	local DeathReason, Killer, DeathCauseHash, Weapon
 

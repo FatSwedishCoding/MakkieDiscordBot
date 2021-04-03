@@ -1,14 +1,15 @@
 
--- SÄTT SERVERN NAMN ANNARS KOMMER SCRIPTET EJ FUNGERA(INPUT YOUR DISCORDWEBHOOK OTHERWISE THE SCRIPT WONT WORK)
+-- SÄTT SERVERN NAMN ANNARS KOMMER SCRIPTET EJ FUNGERA(INPUT YOUR SEVERNAME OTHERWISE THE SCRIPT WONT WORK)
 Config = {
-servername = ''
+servername = 'Alfa Roleplay'
 }
-DiscordWebhookSystemInfos = ''
+DiscordWebhookSystemInfos = 'https://discordapp.com/api/webhooks/798671605227192390/gEXE7DMfqEnO5lU50TdEmz_sf6ao64sWbhH8eq7GgAhkun8EqwQnlw6iDcV_H4XU96K1'
 DiscordWebhookinut = ''
 
 DiscordWebhookKillinglogs = ''
 DiscordWebhookChat = ''
 DiscordWebhookpolicelogs = ''
+-- ALTERNETIVE, FOR LOGS ON BENNY
 DiscordWebhookbennylogs = ''
 
 --RÖR EJ DÅ KOMMER SCRIPTET CRASHA. (DONT TOUCH IF YOU DO THE SCRIPT WILL CRASH)
