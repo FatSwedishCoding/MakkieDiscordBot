@@ -11,6 +11,8 @@ IF U NEED HELP OR ANYTHING CONTACT US ON: https://discord.gg/amSvPhQ
 *Please dont remove this*
 Support is included,
 
+I HAVE THE RIGHTS TO CHOOISE AND BAN PEOPLE FROM USING MY BOT!
+
 Discord Name: Makki3#0729
 MVH Makki3 In TheFatSwedishCoding.
 
